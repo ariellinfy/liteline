@@ -15,15 +15,6 @@ dotenv.config();
 const PORT = process.env.PORT || 8000;
 const app = express();
 
-// setup websocket
-const server = createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  },
-});
-
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
@@ -56,6 +47,15 @@ app.use(function (req, res, next) {
 
 app.get("/", (req, res) => {
   res.send("hello backend");
+});
+
+// setup websocket
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  },
 });
 
 initWebSocket(io);

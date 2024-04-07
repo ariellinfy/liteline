@@ -49,6 +49,10 @@ app.get("/", (req, res) => {
   res.send("hello backend");
 });
 
+app.get("/health", (req, res) => {
+  res.status(200).send("server alive");
+});
+
 // setup websocket
 const server = createServer(app);
 const io = new Server(server, {

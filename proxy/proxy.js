@@ -14,7 +14,7 @@ app.use(
 const servers = [
   "https://liteline.onrender.com",
   "https://liteline-api01.onrender.com",
-  "https://liteline02.onrender.com",
+  "https://liteline-api02-test.onrender.com",
 ];
 
 let currentServer = 0;

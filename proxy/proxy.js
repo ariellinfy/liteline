@@ -34,11 +34,7 @@ const checkHealthyServers = async () => {
 
 let currentServer = 0;
 
-const getServer = () => {
-  if (healthyServers.size === 0) {
-    return "";
-  }
-
+const updateCurrentServer = () => {
   // check current server health
   if (!healthyServers.has(allServers[currentServer])) {
     // find next healthy server
@@ -50,12 +46,10 @@ const getServer = () => {
       }
     }
   }
-
-  return servers[currentServer];
 };
 
 const proxyOptions = {
-  target: getServer(),
+  target: allServers[currentServer],
   changeOrigin: true,
   ws: true,
   secure: true,
@@ -83,5 +77,6 @@ app.use(proxyMiddleware);
 
 // Update health periodically
 setInterval(checkHealthyServers, 5000);
+setInterval(updateCurrentServer, 5000);
 
 app.listen(5000);

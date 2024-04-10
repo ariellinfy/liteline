@@ -21,6 +21,11 @@ app.use(
     credentials: true,
   })
 );
+
+app.get("/health", (req, res) => {
+  return res.status(200).send("server alive");
+});
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -47,10 +52,6 @@ app.use(function (req, res, next) {
 
 app.get("/", (req, res) => {
   res.send("hello backend");
-});
-
-app.get("/health", (req, res) => {
-  res.status(200).send("server alive");
 });
 
 // setup websocket

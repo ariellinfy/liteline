@@ -10,6 +10,7 @@ import { setUserInfo } from "../store/user/userSlice";
 import { setRoomInfo, setOnlineMembers } from "../store/room/roomSlice";
 import { setMessage } from "../store/message/messageSlice";
 import { setInfoAlert } from "../store/notification/notificationSlice";
+import { useErrorBoundary } from "react-error-boundary";
 import socket from "../socket";
 
 const ChatPage = () => {
@@ -20,6 +21,7 @@ const ChatPage = () => {
   const { data, isGetUserLoading } = useGetUserQuery(null, { skip });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { showBoundary } = useErrorBoundary();
 
   useEffect(() => {
     if (!isGetUserLoading && data) {
@@ -37,12 +39,25 @@ const ChatPage = () => {
 
   useEffect(() => {
     socket.connect();
-    socket.emit("online");
+    // socket.emit("online");
+    socket.on("connect_error", (err) => {
+      console.log(`connect_error due to ${err.message}`);
+      showBoundary(err);
+    });
 
     return () => {
       socket.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("connect", () => {
+      console.log("Connection (re)established!");
+      socket.emit("online");
+    });
+  }, [socket]);
 
   useEffect(() => {
     const handleMessage = (data) => {

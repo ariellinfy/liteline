@@ -29,7 +29,7 @@ const Chatbox = () => {
     if (!isGetMessagesLoading && data) {
       dispatch(setMessage(data));
     }
-  }, [isGetMessagesLoading, data]);
+  }, [roomInfo]);
 
   // Function to handle sending messages
   const sendMessage = async () => {

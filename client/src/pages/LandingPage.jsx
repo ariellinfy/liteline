@@ -5,16 +5,15 @@ import Authenticator from "../components/authenticator/Authenticator";
 const LandingPage = () => {
   const { userInfo } = useSelector((state) => state.user);
 
+  if (userInfo) {
+    // user is authenticated
+    return <Navigate to="/chatroom" replace={true} />;
+  }
+
   return (
-    <>
-      {userInfo ? (
-        <Navigate to="/chatroom" replace={true} />
-      ) : (
-        <div className="container-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500">
-          <Authenticator />
-        </div>
-      )}
-    </>
+    <div className="container-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500">
+      <Authenticator />
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import LeftSidebar from "../components/sidebars/LeftSidebar";
@@ -14,11 +14,12 @@ import { useErrorBoundary } from "react-error-boundary";
 import socket from "../socket";
 
 const ChatPage = () => {
-  const [skip, setSkip] = useState(true);
   const { userInfo } = useSelector((state) => state.user);
   const { roomInfo, onlineMembers } = useSelector((state) => state.room);
   const { messages } = useSelector((state) => state.message);
-  const { data, isGetUserLoading } = useGetUserQuery(null, { skip });
+  const { data, isGetUserLoading } = useGetUserQuery(null, {
+    skip: userInfo === null,
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { showBoundary } = useErrorBoundary();
@@ -30,16 +31,8 @@ const ChatPage = () => {
   }, [data, isGetUserLoading, dispatch]);
 
   useEffect(() => {
-    if (!userInfo) {
-      setSkip(true);
-    } else {
-      setSkip(false);
-    }
-  }, [userInfo]);
-
-  useEffect(() => {
     socket.connect();
-    // socket.emit("online");
+
     socket.on("connect_error", (err) => {
       console.log(`connect_error due to ${err.message}`);
       showBoundary(err);

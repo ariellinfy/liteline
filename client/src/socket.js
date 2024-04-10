@@ -1,11 +1,6 @@
 import io from "socket.io-client";
 
-// const serverUrl = "https://liteline.onrender.com/";
-const proxyUrl = "https://liteline-proxy-v48s.onrender.com/";
-
-// const proxyUrl = "http://localhost:5000/";
-
-const socket = io(proxyUrl, {
+const socket = io(process.env.REACT_APP_Proxy_EndPoint, {
   autoConnect: false,
   withCredentials: true,
   transports: ["websocket"],

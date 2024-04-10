@@ -8,11 +8,11 @@ const LandingPage = () => {
   return (
     <>
       {userInfo ? (
+        <Navigate to="/chatroom" replace={true} />
+      ) : (
         <div className="container-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500">
           <Authenticator />
         </div>
-      ) : (
-        <Navigate to="/chatroom" />
       )}
     </>
   );

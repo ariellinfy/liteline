@@ -28,7 +28,7 @@ const ChatPage = () => {
     if (!isGetUserLoading && data) {
       dispatch(setUserInfo({ ...data }));
     }
-  }, [data, isGetUserLoading, dispatch]);
+  }, [data, isGetUserLoading]);
 
   useEffect(() => {
     socket.connect();

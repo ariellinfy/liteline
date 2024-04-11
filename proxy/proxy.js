@@ -4,7 +4,6 @@ const axios = require("axios");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const app = express();
-
 class Queue {
   constructor() {
     this.items = [];
@@ -35,12 +34,13 @@ class Queue {
 
 const allServers = new Queue();
 
-allServers.enqueue("http://localhost:8000");
-allServers.enqueue("http://localhost:8001");
+// allServers.enqueue("http://localhost:8000");
+// allServers.enqueue("http://localhost:8001");
 
-// const healthyServers = new Set();
-// let currentServer = 0;
-// let serverChanged = false;
+allServers.enqueue("https://liteline-api-test.onrender.com");
+allServers.enqueue("https://liteline-api-test.onrender.com");
+allServers.enqueue("https://liteline-api02-test.onrender.com");
+
 let hasHealthyServer = true;
 
 const checkHealthyServers = async () => {
@@ -61,22 +61,6 @@ const checkHealthyServers = async () => {
   hasHealthyServer = false;
   console.log("No healthy servers");
 };
-
-// const checkCurrentServer = () => {
-//   // check current server health
-//   if (!healthyServers.has(allServers[currentServer])) {
-//     // find next healthy server
-//     for (let i = 0; i < allServers.length; i++) {
-//       const nextServer = (currentServer + i) % allServers.length;
-//       if (healthyServers.has(allServers[nextServer])) {
-//         currentServer = nextServer;
-//         console.log("Current server changed to: ", allServers[currentServer]);
-//         serverChanged = true;
-//         break;
-//       }
-//     }
-//   }
-// };
 
 const reRoute = (req, res) => {
   return allServers.peek();
@@ -131,5 +115,3 @@ app.use(proxyMiddleware);
 setInterval(checkHealthyServers, 10000);
 
 app.listen(5000);
-
-// implement a queue class

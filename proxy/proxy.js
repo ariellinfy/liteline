@@ -5,18 +5,11 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const app = express();
 
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000",
-//     credentials: true,
-//   })
-// );
-
 const allServers = [
   // "http://localhost:8000",
   // "http://localhost:8001",
-  "https://liteline.onrender.com",
-  "https://liteline-api01.onrender.com",
+  "https://liteline-api-test.onrender.com",
+  "https://liteline-api01-test.onrender.com",
   "https://liteline-api02-test.onrender.com",
 ];
 
